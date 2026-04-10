@@ -1,17 +1,55 @@
 ---
 name: agents-do
-description: Expert guidance for autonomous-agents and agents.do — defining, deploying, and orchestrating autonomous AI agents with triggers, actions, and observable execution.
+description: Expert guidance for agents.do — named agent imports, tagged template calls, multi-agent orchestration, remote pipelines, and the autonomous-agents SDK.
 ---
 
 # agents.do
 
-You are an expert in `autonomous-agents` and [agents.do](https://agents.do).
+You are an expert in [agents.do](https://agents.do) — the .do service for deploying and orchestrating named autonomous AI agents.
 
 ## When to Use
 
-Activate this skill when working with `autonomous-agents`, `Agent()` factory, agent orchestration, or the agents.do managed service.
+Activate when working with `agents.do` imports, the `Agent()` factory, named agent calls, or multi-agent orchestration.
 
-## Agent Definition
+## The SDK — Named Imports
+
+```typescript
+import { priya, ralph, tom, mark, quinn, rae, sally } from 'agents.do'
+
+// Natural language — just say what you want
+const spec   = await priya`spec out user authentication`
+const code   = await ralph`build ${spec}`
+const review = await tom`review ${code}`
+const tests  = await quinn`test ${review} thoroughly`
+```
+
+Each agent has a real GitHub identity. When Tom reviews your PR, you'll see `@tom-do` commenting.
+
+## Pipeline with Remote .map()
+
+```typescript
+const sprint = await priya`plan the sprint`
+  .map(issue => ralph`build ${issue}`)
+  .map(code  => tom`review ${code}`)
+```
+
+The `.map()` is a **remote operation** — not JavaScript's Array.map. The callback is recorded and sent to the server, which executes the entire pipeline in one pass.
+
+## Named Agents
+
+| Import | Agent | Role | Tagline |
+|--------|-------|------|---------|
+| `priya` | Priya | Product | Specs, roadmaps, priorities |
+| `ralph` | Ralph | Engineering | Ship iteratively |
+| `tom` | Tom | Tech Lead | Architecture, code review |
+| `rae` | Rae | Frontend | React, UI, accessibility |
+| `mark` | Mark | Marketing | Copy, content, launches |
+| `sally` | Sally | Sales | Outreach, demos, closing |
+| `quinn` | Quinn | QA | Testing, edge cases, quality |
+
+## Lower-Level: Agent() Factory
+
+For custom agents not in the named roster:
 
 ```typescript
 import { Agent } from 'autonomous-agents'
@@ -24,52 +62,45 @@ const agent = Agent({
     { name: 'cms',   type: 'api',          endpoint: process.env.CMS_URL },
     { name: 'slack', type: 'notification', channel: '#content' },
   ],
-  triggers: ['contentRequested', 'draftReviewed'],
-  actions:  ['draftContent', 'reviewDraft', 'schedulePublication'],
+  triggers:   ['contentRequested', 'draftReviewed'],
+  actions:    ['draftContent', 'reviewDraft', 'schedulePublication'],
   keyResults: [
     { key: 'draftsCompleted', target: 10,   unit: 'per week' },
     { key: 'publishedOnTime', target: 0.95, unit: 'rate' },
   ],
 })
 
-// Execute
-await agent.execute({ type: 'contentRequested', data: { topic: 'AI' } })
-await agent.do.draftContent({ topic: 'AI', audience: 'developers' })
+await agent.execute({ type: 'contentRequested', data: { topic: 'AI agents' } })
+await agent.do.draftContent({ topic: 'AI agents', audience: 'developers' })
 ```
-
-## Named Platform Agents
-
-| Agent | Role | Capabilities |
-|-------|------|-------------|
-| `Priya` | Product | Sprint planning, backlog, stakeholder comms |
-| `Ralph` | Engineering | Code review, PR triage, architecture |
-| `Tom` | Tech Lead | Cross-team coordination, technical direction |
-| `Mark` | Marketing | Content strategy, campaigns |
-| `Sally` | Sales | Lead scoring, sequences |
-| `Quinn` | QA | Test planning, issue triage |
-| `Rae` | Frontend | UI review, accessibility, component gen |
 
 ## Multi-Agent Orchestration
 
 ```typescript
-import { agents } from 'agents.do'
+// Sequential handoff
+const spec     = await priya`spec out ${feature}`
+const code     = await ralph`build ${spec}`
+const reviewed = await tom`review ${code}`
 
-// Delegate to named agent
-const plan = await agents.priya`Create a sprint plan for ${features}`
+// Parallel
+const [safety, quality] = await Promise.all([
+  quinn`check security of ${code}`,
+  tom`review architecture of ${code}`,
+])
 
-// Pipeline
-const reviewed = await agents.ralph`Review: ${prUrl}`
-const approved = await agents.tom`Approve if score > 0.8: ${reviewed}`
+// Event-driven loop
+import { on } from 'workflows.do'
 
-// Parallel map
-const results = await Promise.all(
-  issues.map(issue => agents.ralph`Fix: ${issue}`)
-)
+on.PR.opened(async pr => {
+  const review = await tom`review ${pr}`
+  if (review.approved) await pr.merge()
+  else await ralph`address feedback: ${review}`
+})
 ```
 
 ## Best Practices
 
-- One agent per role — no monolithic agents
-- Always define `keyResults` — they drive autonomous behavior
-- Use triggers (not polling) to wake agents
-- Test configurations with `evaluate-do` before production
+- Use named imports (`priya`, `ralph`) for platform agents — they have real identity and history
+- Use `Agent()` factory for custom/tenant-specific agents
+- Keep pipeline chains declarative — `.map()` is more efficient than sequential awaits
+- Always define `keyResults` on custom agents — they drive autonomous behavior
