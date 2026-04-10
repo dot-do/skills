@@ -52,27 +52,6 @@ npx skills add <owner/repo@skill-name>
 
 ---
 
-## What is a Skill?
-
-A skill is a markdown file with a frontmatter header that tells Claude Code when and how to activate it. Skills are composable — an agent can load multiple skills, and skills can reference each other.
-
-```md
----
-name: my-skill
-description: What this skill does and when to activate it
-triggers:
-  - keyword that activates this skill
----
-
-# My Skill
-
-You are an expert in...
-```
-
-Skills are distributed via [skills.sh](https://skills.sh) and installed with `npx skills`. This repo is a public submodule of [dot-do/agents](https://github.com/dot-do/agents).
-
----
-
 ## Repository Structure
 
 ```
