@@ -1,6 +1,6 @@
 <div align="center">
 
-# .do Agent Skills
+# skills
 
 **The open agent skills ecosystem for Claude Code**
 
@@ -20,20 +20,14 @@ Skills are reusable, composable markdown modules that extend Claude Code agents 
 ## Quick Start
 
 ```bash
-# Install a skill into your Claude Code project
 npx skills add dot-do/skills@functions-do
 npx skills add dot-do/skills@workflows-do
 npx skills add dot-do/skills@agents-do
 npx skills add dot-do/skills@database-do
 npx skills add dot-do/skills@evaluate-do
 npx skills add dot-do/skills@workers-rpc
-```
-
-Or browse and install from the registry:
-
-```bash
-npx skills find "agent identity"
-npx skills add <owner/repo@skill-name>
+npx skills add dot-do/skills@soul
+npx skills add dot-do/skills@creating-agents
 ```
 
 ---
@@ -42,42 +36,43 @@ npx skills add <owner/repo@skill-name>
 
 ### platform.do Services
 
-Skills for the core managed services powering [platform.do](https://platform.do):
-
-| Skill | Service | Description | Install |
-|-------|---------|-------------|---------|
-| [`functions-do`](platform/functions-do.skill.md) | [functions.do](https://functions.do) | Type-safe AI function invocation with schema generation, template literals, and provider routing | `npx skills add dot-do/skills@functions-do` |
-| [`workflows-do`](platform/workflows-do.skill.md) | [workflows.do](https://workflows.do) | Event-driven AI orchestration, scheduled execution, fan-out patterns, and human-in-the-loop checkpoints | `npx skills add dot-do/skills@workflows-do` |
-| [`agents-do`](platform/agents-do.skill.md) | [agents.do](https://agents.do) | Define, deploy, and orchestrate autonomous AI agents with triggers, actions, and observable execution | `npx skills add dot-do/skills@agents-do` |
-| [`database-do`](platform/database-do.skill.md) | [database.do](https://database.do) | AI-native data modeling with Nouns/Things, Payload CMS collections, vector search, and AI generation | `npx skills add dot-do/skills@database-do` |
-| [`evaluate-do`](platform/evaluate-do.skill.md) | evaluate.do | Systematic LLM benchmarking, parameter sweeps, and model comparison for agents | `npx skills add dot-do/skills@evaluate-do` |
-| [`workers-rpc`](platform/workers-rpc.skill.md) | [platform.do](https://platform.do) | Cloudflare Workers RPC patterns, Durable Objects, promise pipelining, and .do service architecture | `npx skills add dot-do/skills@workers-rpc` |
+| Skill | Service | Description |
+|-------|---------|-------------|
+| [`functions-do`](functions-do/SKILL.md) | [functions.do](https://functions.do) | Type-safe AI function invocation — `AI()` factory, schema design, template literals, provider routing |
+| [`workflows-do`](workflows-do/SKILL.md) | [workflows.do](https://workflows.do) | Event-driven orchestration — `on()`, `every()`, sequential/parallel/HITL patterns |
+| [`agents-do`](agents-do/SKILL.md) | [agents.do](https://agents.do) | Autonomous agents — `Agent()` config, named agents, multi-agent pipelines |
+| [`database-do`](database-do/SKILL.md) | [database.do](https://database.do) | AI-native data — `DB()` models, Nouns/Things, vector search, AI generation |
+| [`evaluate-do`](evaluate-do/SKILL.md) | evaluate.do | LLM benchmarking — `Experiment()`, parameter sweeps, model comparison |
+| [`workers-rpc`](workers-rpc/SKILL.md) | [platform.do](https://platform.do) | Cloudflare Workers — `RPC()` wrapper, Durable Objects, promise pipelining |
 
 ### Identity & Soul
 
-| Skill | Description | Install |
-|-------|-------------|---------|
-| [`soul`](identity/soul.skill.md) | Define agent soul, identity, and persona using the SOUL.md framework | `npx skills add dot-do/skills@soul` |
+| Skill | Description |
+|-------|-------------|
+| [`soul`](soul/SKILL.md) | Define agent soul, identity, and persona using the SOUL.md framework |
 
 ### Agent Authoring
 
-| Skill | Description | Install |
-|-------|-------------|---------|
-| [`creating-agents`](agents/creating-agents.skill.md) | Expert guidance for creating Claude Code agents with proper structure and frontmatter | `npx skills add dot-do/skills@creating-agents` |
-| [`mdx-injection`](agents/mdx-injection.skill.md) | Dynamic MDX template injection for customer/tenant-specific context | `npx skills add dot-do/skills@mdx-injection` |
+| Skill | Description |
+|-------|-------------|
+| [`creating-agents`](creating-agents/SKILL.md) | Create Claude Code agents with correct structure, frontmatter, and validation rules |
+| [`mdx-injection`](mdx-injection/SKILL.md) | Dynamic MDX template injection for multi-tenant agent configuration |
 
 ---
 
 ## What is a Skill?
 
-A skill is a markdown file with a frontmatter header that tells Claude Code when and how to activate it. Skills are composable — an agent can load multiple skills, and skills can reference each other.
+A skill is a directory containing a `SKILL.md` file. Claude Code loads skills into the agent's context, activating the capability described inside.
+
+```
+my-skill/
+└── SKILL.md    ← frontmatter + instructions
+```
 
 ```md
 ---
 name: my-skill
-description: What this skill does and when to activate it
-triggers:
-  - keyword that activates this skill
+description: What this skill does and when Claude should activate it
 ---
 
 # My Skill
@@ -85,7 +80,7 @@ triggers:
 You are an expert in...
 ```
 
-Skills are distributed via [skills.sh](https://skills.sh) and installed with `npx skills`. This repo is a public submodule of [dot-do/agents](https://github.com/dot-do/agents).
+Install with `npx skills`, publish via [skills.sh](https://skills.sh). This repo is a public submodule of [dot-do/agents](https://github.com/dot-do/agents).
 
 ---
 
@@ -93,18 +88,15 @@ Skills are distributed via [skills.sh](https://skills.sh) and installed with `np
 
 ```
 skills/
-├── platform/              # platform.do service skills
-│   ├── functions-do.skill.md
-│   ├── workflows-do.skill.md
-│   ├── agents-do.skill.md
-│   ├── database-do.skill.md
-│   ├── evaluate-do.skill.md
-│   └── workers-rpc.skill.md
-├── identity/              # Soul, identity, and persona skills
-│   └── soul.skill.md
-├── agents/                # Agent authoring and orchestration
-│   ├── creating-agents.skill.md
-│   └── mdx-injection.skill.md
+├── functions-do/        # functions.do — ai-functions
+├── workflows-do/        # workflows.do — ai-workflows
+├── agents-do/           # agents.do — autonomous-agents
+├── database-do/         # database.do — ai-database
+├── evaluate-do/         # evaluate.do — ai-experiments
+├── workers-rpc/         # platform.do — @dotdo/rpc + Durable Objects
+├── soul/                # Agent soul & identity (SOUL.md framework)
+├── creating-agents/     # Claude Code agent authoring
+├── mdx-injection/       # Multi-tenant context injection
 ├── CONTRIBUTING.md
 ├── CODE_OF_CONDUCT.md
 ├── SECURITY.md
@@ -114,8 +106,6 @@ skills/
 ---
 
 ## The .do Platform
-
-This skills library is built for the [dot.do](https://dot.do) platform ecosystem:
 
 | Service | Package | Description |
 |---------|---------|-------------|
@@ -129,18 +119,18 @@ This skills library is built for the [dot.do](https://dot.do) platform ecosystem
 
 ## Contributing
 
-We welcome contributions! Please read [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines on adding new skills, improving existing ones, and proposing features.
+Read [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines on adding skills, improving existing ones, and proposing features.
 
 ---
 
 ## License
 
-MIT © [dot.do](https://dot.do) — see [LICENSE](LICENSE) for details.
+MIT © [.do](https://platform.do) — see [LICENSE](LICENSE) for details.
 
 ---
 
 <div align="center">
 
-Made with ♥ by [dot.do](https://dot.do) · Part of the [dot-do](https://github.com/dot-do) ecosystem
+Made with ♥ by [.do](https://platform.do) · Part of the [dot-do](https://github.com/dot-do) ecosystem
 
 </div>
