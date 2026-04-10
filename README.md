@@ -1,6 +1,6 @@
 <div align="center">
 
-# skills
+# .do Skills
 
 **The open agent skills ecosystem for Claude Code**
 
