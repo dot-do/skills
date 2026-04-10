@@ -2,7 +2,7 @@
 
 # .do Agent Skills
 
-**The open agent skills ecosystem for Claude Code**
+**The open agent skills ecosystem for the .do Platform**
 
 [![skills.sh](https://img.shields.io/badge/skills.sh-registry-8b5cf6?style=flat-square)](https://skills.sh)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue?style=flat-square)](LICENSE)
