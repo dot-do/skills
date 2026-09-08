@@ -58,6 +58,12 @@ Skills for the core managed services powering [platform.do](https://platform.do)
 | [`creating-agents`](creating-agents/SKILL.md) | Expert guidance for creating Claude Code agents with proper structure and frontmatter |
 | [`mdx-injection`](mdx-injection/SKILL.md) | Dynamic MDX template injection for customer/tenant-specific context |
 
+### Thinking & Decisions
+
+| Skill | Description |
+|-------|-------------|
+| [`grill-to-explore`](grill-to-explore/SKILL.md) | Relentless interview that fleshes a concept out into a sketch (throwaway thinking that answers one question) without deciding anything; graduating to an ADR is a separate explicit step. Requires Matt Pocock's `grilling`, `grill-with-docs`, and `domain-modeling` skills to be installed — it invokes them by name and they are not bundled here. |
+
 ---
 
 ## Repository Structure
@@ -73,6 +79,7 @@ skills/
 ├── soul/                  # Agent soul & identity (SOUL.md framework)
 ├── creating-agents/       # Claude Code agent authoring
 ├── mdx-injection/         # Multi-tenant context injection
+├── grill-to-explore/      # Sketch a concept before deciding it (needs grilling, grill-with-docs, domain-modeling)
 ├── CONTRIBUTING.md
 ├── CODE_OF_CONDUCT.md
 ├── SECURITY.md
