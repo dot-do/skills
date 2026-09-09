@@ -2,7 +2,7 @@
 name: grill-to-explore
 description: A relentless interview that fleshes out a concept into a sketch, throwaway thinking that answers a question, without deciding anything. Graduating a sketch into an ADR is a separate, explicit step.
 disable-model-invocation: true
-compatibility: Requires three skills from mattpocock/skills, invoked by name via the Skill tool: grilling, domain-modeling, grill-with-docs. Install them first (see metadata.requires).
+compatibility: "Requires three skills from mattpocock/skills, invoked by name via the Skill tool (grilling, domain-modeling, grill-with-docs). Install them first; see metadata.install."
 metadata:
   requires: "mattpocock/skills@grilling mattpocock/skills@domain-modeling mattpocock/skills@grill-with-docs"
   install: "npx skills add mattpocock/skills@grilling && npx skills add mattpocock/skills@domain-modeling && npx skills add mattpocock/skills@grill-with-docs && npx skills add dot-do/skills@grill-to-explore"
