@@ -64,7 +64,13 @@ Skills for the core managed services powering [platform.do](https://platform.do)
 |-------|-------------|
 | [`grill-to-explore`](grill-to-explore/SKILL.md) | Relentless interview that fleshes a concept out into a sketch (throwaway thinking that answers one question) without deciding anything; graduating to an ADR is a separate explicit step. Requires Matt Pocock's `grilling`, `grill-with-docs`, and `domain-modeling` skills to be installed — it invokes them by name and they are not bundled here. |
 
-Install (dependencies first, then the skill):
+Install as a pack (brings Matt Pocock's `grilling`, `domain-modeling`, and `grill-with-docs` along with every skill in this repo):
+
+```bash
+npx skills add https://skills.sh/p/cU1n03Di8YeEI7ZX
+```
+
+Or individually, dependencies first:
 
 ```bash
 npx skills add mattpocock/skills@grilling
